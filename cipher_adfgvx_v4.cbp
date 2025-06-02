@@ -11,10 +11,43 @@
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc-mingw32" />
+				<Compiler>
+					<Add directory="headers" />
+				</Compiler>
+			</Target>
+			<Target title="Decipher_tool_test">
+				<Option output="bin/Release/cipher_adfgvx_v4" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc-mingw32" />
+				<Compiler>
+					<Add directory="headers" />
+				</Compiler>
 			</Target>
 		</Build>
-		<Unit filename="main.c">
+		<Unit filename="headers/adfgvx_core.h" />
+		<Unit filename="headers/adfgvx_decipher.h">
+			<Option target="Decipher_tool_test" />
+		</Unit>
+		<Unit filename="headers/cipher_config.h" />
+		<Unit filename="headers/file_operations.h" />
+		<Unit filename="src/adfgvx_core.c">
 			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/adfgvx_decipher.c">
+			<Option compilerVar="CC" />
+			<Option target="Decipher_tool_test" />
+		</Unit>
+		<Unit filename="src/file_operations.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/main.c">
+			<Option compilerVar="CC" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/main_decipher_and_test.c">
+			<Option compilerVar="CC" />
+			<Option target="Decipher_tool_test" />
 		</Unit>
 		<Extensions>
 			<lib_finder disable_auto="1" />
