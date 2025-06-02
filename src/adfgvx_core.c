@@ -1,8 +1,8 @@
 #include "adfgvx_core.h"
-#include <string.h> // Necess·rio para strlen, se usado (embora key_length seja passado)
-#include <stdio.h>  // Para debugging ou perror, se necess·rio (geralmente evitado em mÛdulos core)
+#include <string.h> // Necess√°rio para strlen, se usado (embora key_length seja passado)
+#include <stdio.h>  // Para debugging ou perror, se necess√°rio (geralmente evitado em m√≥dulos core)
 
-// Constantes da cifra ADFGVX, encapsuladas neste mÛdulo.
+// Constantes da cifra ADFGVX, encapsuladas neste m√≥dulo.
 
 static const char symbols[6] = {'A', 'D', 'F', 'G', 'V', 'X'};
 static const char square[6][6] = {
@@ -15,7 +15,7 @@ static const char square[6][6] = {
 
 /**
  * @brief Encontra os simbolos ADFGVX correspondentes a um caractere.
- * FunÁ„o auxiliar est·tica, interna a este mÛdulo.
+ * Fun√ß√£o auxiliar est√°tica, interna a este m√≥dulo.
  *
  * @param c Caractere a ser cifrado.
  * @param row Ponteiro para armazenar o simbolo da linha.
@@ -41,7 +41,7 @@ static int get_adfgvx_symbols(char c, char *row, char *col)
 
 /**
  * @brief Insere um simbolo ADFGVX na matriz de colunas.
- * FunÁ„o auxiliar est·tica, interna a este mÛdulo.
+ * Fun√ß√£o auxiliar est√°tica, interna a este m√≥dulo.
  *
  * @param key_length Comprimento da chave.
  * @param symbol Simbolo a ser inserido (row ou col).
@@ -61,26 +61,26 @@ static void insert_symbol_to_column(int key_length, char symbol, int *symbol_cou
 
 /**
  * @brief Converte a mensagem em colunas de simbolos ADFGVX para cifra por transposicao.
- * FunÁ„o auxiliar est·tica, interna a este mÛdulo.
+ * Fun√ß√£o auxiliar est√°tica, interna a este m√≥dulo.
  *
  * @param key_length Comprimento da chave.
  * @param message Mensagem original a ser cifrada.
  * @param encoded_symbol_matrix Matriz onde os simbolos cifrados serao armazenados por coluna.
  * @param symbols_per_column Vetor que armazena o numero de elementos em cada coluna.
- * Este vetor deve ser zerado pelo chamador antes desta funÁ„o.
+ * Este vetor deve ser zerado pelo chamador antes desta fun√ß√£o.
  */
 static void polybius_encode_to_columns(int key_length, char message[], char encoded_symbol_matrix[][MAX_MESSAGE_LENGTH], int symbols_per_column[])
 {
     int i;
-    int current_symbol_count = 0; // Renomeado de symbol_count para evitar shadowing se fosse global
+    int current_symbol_count = 0; 
 
     for (i = 0; message[i] != '\0'; i++)
     {
-        char r_symbol, c_symbol; // Nomes de vari·veis locais para clareza
+        char r_symbol, c_symbol; // Nomes de vari√°veis locais para clareza
 
         if (!get_adfgvx_symbols(message[i], &r_symbol, &c_symbol))
         {
-            //Caracteres nao encontrados s„o ignorados
+            //Caracteres nao encontrados s√£o ignorados
             continue;
         }
 
@@ -91,7 +91,7 @@ static void polybius_encode_to_columns(int key_length, char message[], char enco
 
 /**
  * @brief Reorganiza as colunas da matriz com base na ordem alfabetica da chave.
- * FunÁ„o auxiliar est·tica, interna a este mÛdulo.
+ * Fun√ß√£o auxiliar est√°tica, interna a este m√≥dulo.
  *
  * @param key A chave usada na transposicao (array de caracteres).
  * @param key_length Comprimento da chave.
@@ -101,12 +101,11 @@ static void polybius_encode_to_columns(int key_length, char message[], char enco
 static void transpose_columns_by_key_order(char key[], int key_length, char encoded_symbol_matrix[][MAX_MESSAGE_LENGTH], int symbols_per_column[])
 {
     int i, j, k;
-    // Usa VLA (Variable Length Array) para sorted_key, requer C99 ou posterior.
-    // Se precisar de compatibilidade C89/90, use um buffer de tamanho MAX_KEY_LENGTH.
-    char sorted_key_chars[key_length]; // N„o precisa de +1 se n„o for usada como string com funÁıes de string.h
+   
+    char sorted_key_chars[key_length]; // N√£o precisa de +1 se n√£o for usada como string com fun√ß√µes de string.h
     int temp_s_count; // Renomeado de temp_count
 
-    // Copia a chave original para sorted_key_chars para ordenaÁ„o
+    // Copia a chave original para sorted_key_chars para ordena√ß√£o
     for (i = 0; i < key_length; i++)
     {
         sorted_key_chars[i] = key[i];
@@ -126,8 +125,8 @@ static void transpose_columns_by_key_order(char key[], int key_length, char enco
                 sorted_key_chars[j + 1] = temp_char;
 
                 // Troca as colunas correspondentes na encoded_symbol_matrix.
-                // A troca È feita para a coluna inteira (atÈ MAX_MESSAGE_LENGTH).
-                // A leitura posterior ser· limitada por symbols_per_column.
+                // A troca √© feita para a coluna inteira (at√© MAX_MESSAGE_LENGTH).
+                // A leitura posterior ser√° limitada por symbols_per_column.
                 for (k = 0; k < MAX_MESSAGE_LENGTH; k++)
                 {
                     char temp_matrix_char = encoded_symbol_matrix[j][k];
@@ -144,11 +143,11 @@ static void transpose_columns_by_key_order(char key[], int key_length, char enco
     }
 }
 
-// ImplementaÁ„o da funÁ„o p˙blica
+// Implementa√ß√£o da fun√ß√£o p√∫blica
 void cipher_adfgvx(char key[], int key_length, char message[], char encoded_symbol_matrix[][MAX_MESSAGE_LENGTH], int symbols_per_column[])
 {
-    // … responsabilidade do chamador (main) garantir que symbols_per_column
-    // esteja inicializado com zeros antes de chamar esta funÁ„o.
+    // √â responsabilidade do chamador (main) garantir que symbols_per_column
+    // esteja inicializado com zeros antes de chamar esta fun√ß√£o.
     polybius_encode_to_columns(key_length, message, encoded_symbol_matrix, symbols_per_column);
     transpose_columns_by_key_order(key, key_length, encoded_symbol_matrix, symbols_per_column);
 }
